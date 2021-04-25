@@ -1,20 +1,23 @@
 // NOTE: Sudoku solver
 
-const axios = require('axios');
+// const axios = require('axios');
 
 const {
-    board_1,
-    board_2,
-    board_3,
-    board_4,
-    board_5,
-    board_6,
-    board_7,
-    board_8,
-    board_9,
-    board_10,
+    board_1_4x4,
+    board_2_4x4,
+    board_3_4x4,
+    board_4_4x4,
+    board_5_4x4,
+    board_6_4x4,
+    board_7_4x4,
+    board_8_4x4,
+    board_9_4x4,
+    board_10_4x4,
 } = require('./ques_4x4');
 
+const {
+    board_1_9x9,
+} = require('./ques_9x9');
 
 console.log('-------------------------------START-------------------------------');
 
@@ -30,18 +33,23 @@ console.log('-------------------------------START-------------------------------
 //     [9, 0, 8, 0, 0, 0, 5, 0, 3],
 // ];
 
-let board = board_10;
+// NOTE: Just change this value for 4x4, 9x9..
+const sudokuSize = 9; // 4 or 9.
 
-const possibleNumbers = [1, 2, 3, 4];
-const maxRow = 4;
-const maxColumn = 4;
-const subGridSize = 2;
+const subGridSize = Math.sqrt(sudokuSize);
+let board = sudokuSize === 4 ? board_1_4x4 : board_1_9x9;
+
+const possibleNumbers = [];
+for(let i = 1; i <= sudokuSize; i++) {
+    possibleNumbers.push(i);
+}
+
 let boardLookup = [];
 
 const printBoard = (board) => {
     console.log();
-    for(let i = 0; i <maxRow; i++) {
-        for(let j = 0; j < maxColumn; j++) {
+    for(let i = 0; i <sudokuSize; i++) {
+        for(let j = 0; j < sudokuSize; j++) {
             process.stdout.write(JSON.stringify(board[i][j]) + " ");
         }
         console.log();
@@ -53,14 +61,14 @@ const findPossibleMoves = (row, column) => {
     const existingMoves = new Set();
 
     // Row
-    for(let i = 0; i < maxRow;  i++) {
+    for(let i = 0; i < sudokuSize;  i++) {
         if(board[row][i] !== 0 && i != column) {
             existingMoves.add(board[row][i]);
         }
     }
 
     // Column
-    for(let i = 0; i < maxColumn; i++) {
+    for(let i = 0; i < sudokuSize; i++) {
         if(board[i][column] !== 0 && i !== row) {
             existingMoves.add(board[i][column]);
         }
@@ -112,9 +120,9 @@ const cleanLookupAndBoard = (lastMultipleMovesIndex) => {
 // TODO: Nightmare code.
 const solver = (board) => {
     let i = 0;
-    while(i < maxRow ) {
+    while(i < sudokuSize ) {
         let j = 0;
-        while(j < maxColumn) {
+        while(j < sudokuSize) {
             console.log('i is : ', i, ' j is: ', j);
             printBoard(board);
 
