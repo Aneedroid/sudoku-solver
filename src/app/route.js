@@ -10,14 +10,12 @@ const routes = async (fastify) => {
     try {
       board = solver(request.body.ques);
     } catch(err) {
-      throw new Error('Problem could not be solved')
+      board = [];
+      console.log('Theres an error - ', err);
     }
 
-    return {
-      status: 'OK',
-      solution: board ,
-    }
+    reply.code(200).send(board);
   });
 }
 
-  module.exports = routes;
+module.exports = routes;
