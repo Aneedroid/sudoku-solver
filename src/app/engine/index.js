@@ -2,7 +2,7 @@
 
 const findPossibleMoves = (row, column, board, sudokuSize, subGridSize) => {
     const existingMoves = new Set();
-    const possibleNumbers = sudokuSize === 4 ? [1, 2, 3, 4, 5, 6, 7, 8, 9] : [1, 2, 3, 4];
+    const possibleNumbers = sudokuSize === 4 ? [1, 2, 3, 4] : [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     // Row
     for(let i = 0; i < sudokuSize;  i++) {
@@ -68,7 +68,7 @@ const solver = (originalBoard) => {
         let j = 0;
         while(j < sudokuSize) {
             if(board[i][j] === 0) {
-                const possibleMoves = findPossibleMoves(i, j, board, subGridSize, subGridSize);
+                const possibleMoves = findPossibleMoves(i, j, board, sudokuSize, subGridSize);
                 if(possibleMoves.length > 0) {
                     // NOTE: Gotta set possibleMoves[0] as first value of square and proceed.
                     boardLookup.push({
